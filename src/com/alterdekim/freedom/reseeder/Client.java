@@ -88,7 +88,6 @@ public class Client extends Thread {
                                         r.put("ip", ip_t);
                                         r.put("port", jsonObject2.get("dest_port").toString());
                                         c.write(r.toString());
-
                                     }
                                 });
                             } else {
