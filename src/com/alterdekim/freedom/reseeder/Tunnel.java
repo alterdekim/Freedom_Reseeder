@@ -55,11 +55,6 @@ public class Tunnel extends Thread {
             }
         } catch ( Exception e ) {
             Tunnels.socketTunnels.remove(this);
-            try {
-                sock.close();
-            } catch ( Exception e1 ) {
-
-            }
             e.printStackTrace();
         }
     }

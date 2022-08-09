@@ -1,11 +1,13 @@
 package com.alterdekim.freedom.reseeder;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.security.Security;
 import java.util.Scanner;
 
 public class Main {
@@ -13,6 +15,7 @@ public class Main {
     public static DB db = new DB();
 
     public static void main(String[] args) {
+        Security.addProvider(new BouncyCastleProvider());
         try {
             Scanner sc = new Scanner(new File("config.json"));
             JSONObject config = new JSONObject(sc.nextLine());
@@ -48,7 +51,7 @@ public class Main {
 
     private static void init() {
         if( !new File( "crypt.json" ).exists() ) {
-            RSAKeyPair keyPair = RSA.generateRSA();
+            ECCKeyPair keyPair = ECC.generateECC();
             Settings.rsaKeyPair = keyPair;
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("private_key", keyPair.getPrivateKey());
@@ -75,7 +78,7 @@ public class Main {
                     //e.printStackTrace();
                 }
                 JSONObject jsonObject = new JSONObject(data);
-                RSAKeyPair keyPair = new RSAKeyPair( jsonObject.get("private_key").toString(), jsonObject.get("public_key").toString() );
+                ECCKeyPair keyPair = new ECCKeyPair( jsonObject.get("private_key").toString(), jsonObject.get("public_key").toString() );
                 Settings.rsaKeyPair = keyPair;
             } catch ( Exception e ) {
                 e.printStackTrace();
